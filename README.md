@@ -23,7 +23,7 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 1. **Clone o repositório**:
    ```bash
    git clone https://github.com/KauanRossa/apiPython.git
-   cd apiPython```
+   cd apiPython
 
 2. **Crie um  ambiente  virtual**:
     ```
