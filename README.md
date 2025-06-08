@@ -32,17 +32,21 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 
     Windows
 
-    ```venv\Scripts\activate```
+    ```
+    venv\Scripts\activate```
 
     Linux/MacOS
 
-    ```source venv/bin/activate```
+    ```
+    source venv/bin/activate
 
 4. **Instalar dependências**:
-    ```pip install -r requirements.txt
+    ```
+    pip install -r requirements.txt
 
 5. **Execute a aplicação**:
-    ```flask --app app/routes run
+    ```
+    flask --app app/routes run
 
 ---
 
