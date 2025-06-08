@@ -28,6 +28,7 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 2. **Crie um  ambiente  virtual**:
     ```
     python -m venv venv
+    ```
 
 3. **Ative o ambiente virtual:**
 
