@@ -49,15 +49,15 @@ def login():
     user = cursor.fetchall()
 
     if user.__len__() > 0:
-        if bcrypt.checkpw(data["password"].encode('utf-8'), user[0][3]):
+        return jsonify({"error": "true", "return": "Email provided not registered!"})
+
+    if bcrypt.checkpw(data["password"].encode('utf-8'), user[0][3]):
             cursor.execute("SELECT * FROM users WHERE useremail = ? AND password = ?", (data["useremail"], user[0][3],))
 
             user = cursor.fetchone()
-        else:
-            return jsonify({"error": "true", "return": "Password invalid!"})
     else:
-        return jsonify({"error": "true", "return": "Email provided not registered!"})
-
+        return jsonify({"error": "true", "return": "Password invalid!"})
+        
     if user.__len__() > 0:
         token = jwt.encode(
             {"user": data["useremail"], "exp": datetime.utcnow() + timedelta(weeks=1)},
@@ -68,7 +68,7 @@ def login():
         if isinstance(token, bytes):
             token = token.decode('utf-8')
 
-        return jsonify({"error": "true", "return": "Login successful!", "token": token}), 200
+        return jsonify({"error": "false", "return": "Login successful!", "token": token}), 200
 
     return jsonify({"error": "true", "return": "invalid credentials!"}), 400
 
@@ -134,6 +134,43 @@ def registerItems():
 
     return jsonify({"error": "false", "return": "Item registered successfully!"}), 200
 
+@app.route("/getItems", methods=["GET"])
+def getItems():
+    conn   = connector()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM items")
+
+    items = cursor.fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false", "return": items}), 200
+
+@app.route("/deleteItem", methods=["DELETE"])
+def deleteItem():
+    data   = request.get_json()
+    conn   = connector()
+    cursor = conn.cursor()
+
+    if not data:
+        return jsonify({"error": "true", "return": "No data send, please try again!"}), 400
+
+    cursor.execute("SELECT * FROM items WHERE id = ?", (data["id"],))
+
+    item = cursor.fetchall()
+
+    if item.__len__() == 0:
+        return jsonify({"error": "true", "return": "Item not found!"}), 400
+
+    cursor.execute("DELETE FROM items WHERE id = ?", (data["id"],))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false", "return": "Item deleted sucessfully!"}), 200
+
 @app.route("/getUsers", methods=["GET"])
 def getUsers():
     conn   = connector()
@@ -148,7 +185,7 @@ def getUsers():
     conn.commit()
     conn.close()
 
-    return jsonify({"users": users}), 200
+    return jsonify({"error": "false","return": users}), 200
 
 if __name__ == "__main__":
     app.run()
