@@ -61,10 +61,12 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 | ------ | ---------------- | ------------------------------- |
 | POST   | `/register`      | Cadastra um novo usuário        |
 | POST   | `/login`         | Realiza login e retorna o token |
+| GET    | `/getUsers`      | Retorna a lista de usuários     |
 | POST   | `/logout`        | Realiza logout (valida token)   |
 | GET    | `/validateToken` | Valida o token JWT              |
 | POST   | `/registerItems` | Cadastra um novo item           |
-| GET    | `/getUsers`      | Retorna a lista de usuários     |
+| DELETE | `/deleteItem`    | Deleta item                     |
+| GET    | `/getItems`      | Retorna a lista de itens        |
 
 ---
 
