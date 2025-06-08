@@ -26,27 +26,32 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
    cd apiPython
 
 2. **Crie um  ambiente  virtual**:
-    ```python -m venv venv
+    ```
+    python -m venv venv
 
 3. **Ative o ambiente virtual:**
 
     Windows
 
     ```
-    venv\Scripts\activate```
+    venv\Scripts\activate
+    ```
 
     Linux/MacOS
 
     ```
     source venv/bin/activate
+    ```
 
 4. **Instalar dependências**:
     ```
     pip install -r requirements.txt
+    ```
 
 5. **Execute a aplicação**:
     ```
     flask --app app/routes run
+    ```
 
 ---
 
