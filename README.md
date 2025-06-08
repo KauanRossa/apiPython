@@ -65,6 +65,7 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 | POST   | `/logout`        | Realiza logout (valida token)   |
 | GET    | `/validateToken` | Valida o token JWT              |
 | POST   | `/registerItems` | Cadastra um novo item           |
+| PUT    | `/updateItem`    | Atualiza dados do item          |
 | DELETE | `/deleteItem`    | Deleta item                     |
 | GET    | `/getItems`      | Retorna a lista de itens        |
 

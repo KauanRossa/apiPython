@@ -72,6 +72,22 @@ def login():
 
     return jsonify({"error": "true", "return": "invalid credentials!"}), 400
 
+@app.route("/getUsers", methods=["GET"])
+def getUsers():
+    conn   = connector()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT username, useremail FROM users")
+
+    users = cursor.fetchall()
+
+    print(users)
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false","return": users}), 200
+
 @app.route("/logout", methods=["POST"])
 def logout():
     auth_header = request.headers.get("Authorization")
@@ -148,6 +164,30 @@ def getItems():
 
     return jsonify({"error": "false", "return": items}), 200
 
+@app.route("/updateItem", methods=["PUT"])
+def updateItem():
+    data   = request.get_json()
+    conn   = connector()
+    cursor = conn.cursor()
+
+    if not data:
+        return jsonify({"error": "true", "return": "No data send, please try again!"}), 400
+    
+    cursor.execute("SELECT * FROM items WHERE id = ?", (data["id"],))
+
+    item = cursor.fetchall()
+
+    if item.__len__() == 0:
+        return jsonify({"error": "true", "return": "Item not found!"}), 400
+
+    cursor.execute("UPDATE items SET name = ?, price = ?, categ = ?, weight = ?, mass = ?, qtde = ?, active = ? WHERE id = ?",
+                   (data["name"], data["price"], data["categ"], data["weight"], data["mass"], data["qtde"], data["active"], data["id"]))
+    
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false", "return": "Item updated sucessfully!"}), 200
+    
 @app.route("/deleteItem", methods=["DELETE"])
 def deleteItem():
     data   = request.get_json()
@@ -170,22 +210,6 @@ def deleteItem():
     conn.close()
 
     return jsonify({"error": "false", "return": "Item deleted sucessfully!"}), 200
-
-@app.route("/getUsers", methods=["GET"])
-def getUsers():
-    conn   = connector()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT username, useremail FROM users")
-
-    users = cursor.fetchall()
-
-    print(users)
-
-    conn.commit()
-    conn.close()
-
-    return jsonify({"error": "false","return": users}), 200
 
 if __name__ == "__main__":
     app.run()
