@@ -21,9 +21,11 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 ## 📦 Como Executar o Projeto
 
 1. **Clone o repositório**:
-   ```bash
+   ```
+   bash
    git clone https://github.com/KauanRossa/apiPython.git
    cd apiPython
+   ```
 
 2. **Crie um  ambiente  virtual**:
     ```
@@ -63,12 +65,15 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 | POST   | `/register`      | Cadastra um novo usuário        |
 | POST   | `/login`         | Realiza login e retorna o token |
 | GET    | `/getUsers`      | Retorna a lista de usuários     |
+| GET    | `/myData`        | Retorna dados do usuário        |
+| PUT    | `/updateUser`    | Atualiza dados do usuário       |
+| DELETE | `/deleteUser`    | Deleta usuário                  |
 | POST   | `/logout`        | Realiza logout (valida token)   |
 | GET    | `/validateToken` | Valida o token JWT              |
 | POST   | `/registerItems` | Cadastra um novo item           |
+| GET    | `/getItems`      | Retorna a lista de itens        |
 | PUT    | `/updateItem`    | Atualiza dados do item          |
 | DELETE | `/deleteItem`    | Deleta item                     |
-| GET    | `/getItems`      | Retorna a lista de itens        |
 
 ---
 

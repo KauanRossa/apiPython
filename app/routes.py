@@ -89,6 +89,28 @@ def getUsers():
 
     return jsonify({"error": "false","return": users}), 200
 
+@app.rout("/myData", methods=["GET"])
+def myData():
+    data   = request.get_json()
+    conn   = connector()
+    cursor = conn.cursor()
+
+    if not data:
+        return jsonify({"error": "true", "return": "No data send, please try again!"}), 400
+    
+    cursor.execute("SELECT * FROM users WHERE useremail = ?", (data["useremail"],))
+
+    user = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM addresses WHERE user_id = ?", (data[0][0],))
+
+    user += cursor.fetchall()
+
+    if user.__len__() == 0:
+        return jsonify({"error": "true", "return": "User not found!"}), 400
+    
+    return jsonify({"error": "false", "return": user})
+
 @app.route("/updateUser", methods=["PUT"])
 def updateUser():
     data   = request.get_json()

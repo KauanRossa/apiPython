@@ -58,7 +58,9 @@ def create_table():
         )
     """)
 
-    """ Tabela de endereco por cliente, varios enderecos por cliente """
+    """ Criar tabela de endereco por cliente, varios enderecos por cliente """
+
+    """ Criar tabela de carrinho e itens do carrinho, cada cliente tem um carrinho e pode ter varios itens no carrinho """
 
     conn.commit()
     conn.close()
