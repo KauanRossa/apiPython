@@ -1,5 +1,16 @@
 import sqlite3
 
+"""
+    TYPE user:
+    0 - user
+    1 - vendor
+    2 - admin
+
+    ACTIVE user/item:
+    0 - inactive
+    1 - active
+"""
+
 def connector():
     return sqlite3.connect("database.db")
 
@@ -12,7 +23,10 @@ def create_table():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             useremail TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            type INTEGER DEFAULT 0,
+            token TEXT,
+            active INTEGER DEFAULT 1
         )
     """)
 
@@ -28,6 +42,23 @@ def create_table():
             active INTEGER DEFAULT 1
         )
     """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS addresses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            street TEXT NOT NULL,
+            number INTEGER,
+            complement TEXT,
+            neighborhood TEXT NOT NULL,
+            city TEXT NOT NULL,
+            state TEXT NOT NULL,
+            zip_code TEXT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    """)
+
+    """ Tabela de endereco por cliente, varios enderecos por cliente """
 
     conn.commit()
     conn.close()
