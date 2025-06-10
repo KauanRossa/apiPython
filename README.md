@@ -60,20 +60,24 @@ Este projeto foi criado com o objetivo de praticar e reforçar conhecimentos em 
 
 ## 📌 Endpoints da API
 
-| Método | Rota             | Descrição                       |
-| ------ | ---------------- | ------------------------------- |
-| POST   | `/register`      | Cadastra um novo usuário        |
-| POST   | `/login`         | Realiza login e retorna o token |
-| GET    | `/getUsers`      | Retorna a lista de usuários     |
-| GET    | `/myData`        | Retorna dados do usuário        |
-| PUT    | `/updateUser`    | Atualiza dados do usuário       |
-| DELETE | `/deleteUser`    | Deleta usuário                  |
-| POST   | `/logout`        | Realiza logout (valida token)   |
-| GET    | `/validateToken` | Valida o token JWT              |
-| POST   | `/registerItems` | Cadastra um novo item           |
-| GET    | `/getItems`      | Retorna a lista de itens        |
-| PUT    | `/updateItem`    | Atualiza dados do item          |
-| DELETE | `/deleteItem`    | Deleta item                     |
+| Método | Rota             | Descrição                           |
+| ------ | ---------------- | ------------------------------------|
+| POST   | `/register`      | Cadastra um novo usuário            |
+| POST   | `/login`         | Realiza login e retorna o token     |
+| GET    | `/getUsers`      | Retorna a lista de usuários         |
+| GET    | `/myData`        | Retorna dados do usuário            |
+| PUT    | `/updateUser`    | Atualiza dados do usuário           |
+| DELETE | `/deleteUser`    | Deleta usuário                      |
+| POST   | `/logout`        | Realiza logout (valida token)       |
+| GET    | `/validateToken` | Valida o token JWT                  |
+| POST   | `/registerItems` | Cadastra um novo item               |
+| GET    | `/getItems`      | Retorna a lista de itens            |
+| PUT    | `/updateItem`    | Atualiza dados do item              |
+| DELETE | `/deleteItem`    | Deleta item                         |
+| POST   | `/createCart`    | Cria carrinho                       |
+| GET    | `/getCart`       | Retornar dados do carrinho          |
+| PUT    | `/updateCart`    | Atualiza/Adiciona dados do carrinho |
+| DELETE | `/deleteCart`    | Deleta carrinho                     |
 
 ---
 

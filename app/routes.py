@@ -213,8 +213,8 @@ def registerItems():
     if not data:
         return jsonify({"error": "true", "return": "No data send, please try again!"}), 400
 
-    cursor.execute("INSERT INTO items (name, price, categ, weight, mass, qtde, active) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                   (data["name"], data["price"], data["categ"], data["weight"], data["mass"], data["qtde"], data["active"]))
+    cursor.execute("INSERT INTO items (name, price, categ, weight, mass, quantity, active) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                   (data["name"], data["price"], data["categ"], data["weight"], data["mass"], data["quantity"], data["active"]))
 
     conn.commit()
     conn.close()
@@ -251,8 +251,8 @@ def updateItem():
     if item.__len__() == 0:
         return jsonify({"error": "true", "return": "Item not found!"}), 400
 
-    cursor.execute("UPDATE items SET name = ?, price = ?, categ = ?, weight = ?, mass = ?, qtde = ?, active = ? WHERE id = ?",
-                   (data["name"], data["price"], data["categ"], data["weight"], data["mass"], data["qtde"], data["active"], data["id"]))
+    cursor.execute("UPDATE items SET name = ?, price = ?, categ = ?, weight = ?, mass = ?, quantity = ?, active = ? WHERE id = ?",
+                   (data["name"], data["price"], data["categ"], data["weight"], data["mass"], data["quantity"], data["active"], data["id"]))
     
     conn.commit()
     conn.close()
@@ -281,6 +281,76 @@ def deleteItem():
     conn.close()
 
     return jsonify({"error": "false", "return": "Item deleted sucessfully!"}), 200
+
+@app.route("/createCart", methods=["POST"])
+def createCart():
+    data   = request.get_json()
+    conn   = connector()
+    cursor = conn.cursor()
+
+    if not data:
+        return jsonify({"error": "true", "return": "No data send, please try again!"}), 400
+
+    cursor.execute("SELECT id FROM cart WHERE user_id = ? AND active = 1", (data["user_id"],))
+
+    cart = cursor.fetchone()
+
+    if cart is None:
+        cursor.execute("INSERT INTO cart (user_id, created_at, active) VALUES (?, ?, ?)",
+                       (data["user_id"], datetime.now(), 1))
+
+        cart_id = cursor.lastrowid
+    else:
+        cart_id = cart[0]
+
+    cursor.execute("INSERT INTO cartitem (cart_id, item_id, quantity) VALUES (?, ?, ?)",
+                   (cart_id, data["item_id"], data["quantity"]))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false", "return": "Item added to cart successfully!"}), 200
+
+@app.route("/getCart/<int:user_id>", methods=["GET"])
+def getCart(user_id):
+    conn   = connector()
+    cursor = conn.cursor()
+
+    cursor.execute(""" SELECT ci.id, ci.item_id, i.name, ci.quantity, i.price FROM cart c JOIN cartitem ci ON c.id = ci.cart_id JOIN items i ON ci.item_id = i.id WHERE c.user_id = ? AND c.active = 1 """, (user_id,))
+
+    items = cursor.fetchall()
+
+    conn.close()
+
+    return jsonify({"error": "false", "return": items}), 200
+
+@app.route("/updateCart/<int:cartitem_id>", methods=["PUT"])
+def updateCart(cartitem_id):
+    data = request.get_json()
+    conn = connector()
+    cursor = conn.cursor()
+
+    if not data or "quantity" not in data:
+        return jsonify({"error": "true", "return": "No data send, please try again!"}), 400
+
+    cursor.execute("UPDATE cartitem SET quantity = ? WHERE id = ?", (data["quantity"], cartitem_id))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false", "return": "Cart item updated successfully!"}), 200
+
+@app.route("/deleteCart/<int:cartitem_id>", methods=["DELETE"])
+def deleteCart(cartitem_id):
+    conn = connector()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM cartitem WHERE id = ?", (cartitem_id,))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"error": "false", "return": "Cart item deleted successfully!"}), 200
 
 def log_request(endpoint, data):
     log = {

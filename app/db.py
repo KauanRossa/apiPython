@@ -38,7 +38,7 @@ def create_table():
             categ INTEGER,
             weight INTEGER,
             mass TEXT,
-            qtde INTEGER NOT NULL,
+            quantity INTEGER NOT NULL,
             active INTEGER DEFAULT 1
         )
     """)
@@ -58,9 +58,28 @@ def create_table():
         )
     """)
 
-    """ Criar tabela de endereco por cliente, varios enderecos por cliente """
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS cart (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            created_at TEXT NOT NULL,
+            active INTEGER DEFAULT 1,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    """)
 
-    """ Criar tabela de carrinho e itens do carrinho, cada cliente tem um carrinho e pode ter varios itens no carrinho """
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS cartitem (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cart_id INTEGER NOT NULL,
+            item_id INTEGER NOT NULL,
+            quantity INTEGER NOT NULL,
+            FOREIGN KEY (cart_id) REFERENCES cart (id),
+            FOREIGN KEY (item_id) REFERENCES items (id)
+        )
+    """)
+
+    """ Criar tabela de endereco por cliente, varios enderecos por cliente """
 
     conn.commit()
     conn.close()
